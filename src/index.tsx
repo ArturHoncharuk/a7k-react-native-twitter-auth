@@ -37,7 +37,7 @@ export class TwitterAuthProvider {
     try {
       console.log('login');
       const { oauth_token, oauth_token_secret } =
-        await this.twitterAuthApi.getTwitterRequestToken();
+        await this.twitterAuthApi.getTwitterRequestToken(this.appScheme);
 
       const twitterLoginUrl = `${TWITTER_API_URLS.xAuthenticateUrl}?oauth_token=${oauth_token}`;
       const callbackUrl = getAppDeepLink(this.appScheme);
