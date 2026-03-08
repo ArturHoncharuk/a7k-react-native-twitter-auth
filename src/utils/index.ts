@@ -4,10 +4,10 @@ import queryString from 'query-string';
 /**
  * The function getAppDeepLink returns a deep link based on the platform being used.
  * @returns The function `getAppDeepLink` returns a deep link based on the platform. If the platform is
- * Android, it returns `://my-host/`, otherwise, it returns `://`.
+ * Android, it returns `://callback/`, otherwise, it returns `://`.
  */
 export const getAppDeepLink = (scheme: string | undefined) => {
-  return Platform.OS === 'android' ? `${scheme}://my-host/` : `${scheme}://`;
+  return Platform.OS === 'android' ? `${scheme}://callback/` : `${scheme}://`;
 };
 
 /**

@@ -37,7 +37,7 @@ describe('getAppDeepLink', () => {
 
   it('returns android scheme with host when platform is android', () => {
     Platform.OS = 'android';
-    expect(getAppDeepLink('myapp')).toBe('myapp://my-host/');
+    expect(getAppDeepLink('myapp')).toBe('myapp://callback/');
   });
 
   it('falls back to default scheme when no argument is provided', () => {

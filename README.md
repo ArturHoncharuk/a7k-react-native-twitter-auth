@@ -1,42 +1,44 @@
 # a7k-react-native-twitter-auth
 
-A lightweight React Native library for authenticating users with X (formerly Twitter) using OAuth 1.0a. Works with both **Expo** and **bare React Native** projects.
+React Native OAuth 1.0a authentication for X (Twitter). Works with Expo (managed/bare) and bare React Native.
+
+## Requirements
+
+- React Native ≥ 0.70
+- [`react-native-inappbrowser-reborn`](https://github.com/proyecto26/react-native-inappbrowser) ≥ 3.7.0 (peer dependency — install separately)
+- A **native build** — Expo Go is not supported
 
 ## Installation
 
 ```sh
 # npm
-npm install a7k-react-native-twitter-auth
+npm install a7k-react-native-twitter-auth react-native-inappbrowser-reborn
 
 # yarn
-yarn add a7k-react-native-twitter-auth
+yarn add a7k-react-native-twitter-auth react-native-inappbrowser-reborn
 ```
 
-> `react-native-inappbrowser-reborn` is bundled as a dependency and installs automatically — no need to install it separately.
-
-### iOS — install pods
-
-After installing the library, run pod install to link the native in-app browser module:
+**iOS** — link native modules:
 
 ```sh
 cd ios && pod install
 ```
 
-## Prerequisites
+## Setup
 
-### 1. Register your app's deep link scheme
+### 1. Deep link scheme
 
-**Expo** — add `scheme` to `app.json`:
+**Expo** (`app.json`):
 
 ```json
 {
   "expo": {
-    "scheme": "your-app-scheme"
+    "scheme": "myapp"
   }
 }
 ```
 
-**Bare React Native** — add the scheme to `ios/Info.plist`:
+**Bare React Native** — `ios/Info.plist`:
 
 ```xml
 <key>CFBundleURLTypes</key>
@@ -44,38 +46,93 @@ cd ios && pod install
   <dict>
     <key>CFBundleURLSchemes</key>
     <array>
-      <string>your-app-scheme</string>
+      <string>myapp</string>
     </array>
   </dict>
 </array>
 ```
 
-And to `android/app/src/main/AndroidManifest.xml` inside your main `<activity>`:
+`android/app/src/main/AndroidManifest.xml` (inside your main `<activity>`):
 
 ```xml
 <intent-filter>
   <action android:name="android.intent.action.VIEW" />
   <category android:name="android.intent.category.DEFAULT" />
   <category android:name="android.intent.category.BROWSABLE" />
-  <data android:scheme="your-app-scheme" android:host="my-host" />
+  <data android:scheme="myapp" android:host="callback" />
 </intent-filter>
 ```
 
-### 2. Configure the Twitter / X Developer Portal
+### 2. X Developer Portal
 
-Go to [developer.twitter.com](https://developer.twitter.com) → your app → **User authentication settings**:
+[developer.twitter.com](https://developer.twitter.com) → your app → **User authentication settings**:
 
 - Enable **OAuth 1.0a**
-- Set app permissions to at least **Read**
-- Add callback URLs:
-  - iOS: `your-app-scheme://`
-  - Android: `your-app-scheme://my-host/`
+- App permissions: **Read** (minimum)
+- Callback URLs:
+  - `myapp://` (iOS)
+  - `myapp://callback/` (Android)
 
-> After saving, regenerate your consumer key and secret — Twitter invalidates them when auth settings change.
+> Changing auth settings invalidates existing keys — regenerate your consumer key and secret after saving.
 
-### 3. Use a native build
+## Usage
 
-`react-native-inappbrowser-reborn` requires native code — it does **not** work with Expo Go.
+```tsx
+import { TwitterAuthProvider } from 'a7k-react-native-twitter-auth';
+import type { TwitterAuthResult } from 'a7k-react-native-twitter-auth';
+
+// Instantiate once, outside the component
+const twitterAuth = new TwitterAuthProvider({
+  clientId: process.env.TWITTER_CONSUMER_KEY!,
+  clientSecret: process.env.TWITTER_CONSUMER_SECRET!,
+  appScheme: 'myapp',
+});
+
+export default function App() {
+  const handleSignIn = async () => {
+    try {
+      const result: TwitterAuthResult = await twitterAuth.login();
+      // result.oauthToken       — access token for API calls
+      // result.oauthTokenSecret — store securely (e.g. SecureStore / Keychain)
+      // result.oauthVerifier    — returned for completeness; not needed after this step
+    } catch (error) {
+      // 'Twitter login cancelled or error'  — user dismissed the browser
+      // 'InAppBrowser is not available...'  — running in Expo Go or missing native build
+      // HTTP errors from Twitter            — bad credentials or misconfigured callback URL
+    }
+  };
+
+  return <Button title="Sign in with X" onPress={handleSignIn} />;
+}
+```
+
+## API
+
+### `new TwitterAuthProvider(options)`
+
+| Option | Type | Description |
+|---|---|---|
+| `clientId` | `string` | Consumer key from the X Developer Portal |
+| `clientSecret` | `string` | Consumer secret from the X Developer Portal |
+| `appScheme` | `string` | Deep link scheme registered in your app and Twitter callback URLs |
+
+### `twitterAuth.login()`
+
+```ts
+login(): Promise<TwitterAuthResult>
+```
+
+Opens the X auth flow in an in-app browser. Resolves with tokens on success; throws on cancellation or error.
+
+### `TwitterAuthResult`
+
+| Field | Type | Description |
+|---|---|---|
+| `oauthToken` | `string \| undefined` | Access token — use in `Authorization` headers for X API v1.1 calls |
+| `oauthTokenSecret` | `string \| undefined` | Access token secret — store securely, never log or expose |
+| `oauthVerifier` | `string \| undefined` | OAuth verifier — exchanged for the access token internally |
+
+## Running a native build
 
 ```sh
 # Expo
@@ -87,80 +144,6 @@ npx react-native run-ios
 npx react-native run-android
 ```
 
-## Usage
-
-### Expo
-
-```tsx
-import { TwitterAuthProvider } from 'a7k-react-native-twitter-auth';
-import type { TwitterAuthResult } from 'a7k-react-native-twitter-auth';
-
-const twitterAuth = new TwitterAuthProvider({
-  clientId: 'YOUR_CONSUMER_KEY',
-  clientSecret: 'YOUR_CONSUMER_SECRET',
-  appScheme: 'your-app-scheme', // matches app.json "scheme" and Twitter callback URLs
-});
-
-export default function App() {
-  const [result, setResult] = useState<TwitterAuthResult | null>(null);
-
-  const signIn = async () => {
-    const data = await twitterAuth.login();
-    setResult(data);
-    // data.oauthToken        — use for authenticated API calls
-    // data.oauthTokenSecret  — store securely
-  };
-
-  return <Button title="Sign in with X" onPress={signIn} />;
-}
-```
-
-### Bare React Native
-
-```tsx
-import { TwitterAuthProvider } from 'a7k-react-native-twitter-auth';
-import type { TwitterAuthResult } from 'a7k-react-native-twitter-auth';
-
-const twitterAuth = new TwitterAuthProvider({
-  clientId: 'YOUR_CONSUMER_KEY',
-  clientSecret: 'YOUR_CONSUMER_SECRET',
-  appScheme: 'your-app-scheme', // matches Info.plist / AndroidManifest scheme
-});
-
-export default function App() {
-  const [result, setResult] = useState<TwitterAuthResult | null>(null);
-
-  const signIn = async () => {
-    const data = await twitterAuth.login();
-    setResult(data);
-  };
-
-  return <Button title="Sign in with X" onPress={signIn} />;
-}
-```
-
-## API
-
-### `new TwitterAuthProvider(options)`
-
-| Option | Type | Description |
-|--------|------|-------------|
-| `clientId` | `string` | Twitter app consumer key |
-| `clientSecret` | `string` | Twitter app consumer secret |
-| `appScheme` | `string` | Your app's deep link scheme (e.g. `myapp`) |
-
-### `twitterAuth.login()`
-
-Opens the Twitter auth flow in an in-app browser and returns a `Promise<TwitterAuthResult>`.
-
-### `TwitterAuthResult`
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `oauthToken` | `string \| undefined` | Access token for API calls |
-| `oauthTokenSecret` | `string \| undefined` | Access token secret |
-| `oauthVerifier` | `string \| undefined` | OAuth verifier |
-
 ## Contributing
 
 - [Development workflow](CONTRIBUTING.md#development-workflow)
@@ -170,7 +153,3 @@ Opens the Twitter auth flow in an in-app browser and returns a `Promise<TwitterA
 ## License
 
 MIT
-
----
-
-Made with [create-react-native-library](https://github.com/callstack/react-native-builder-bob)
