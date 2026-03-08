@@ -35,7 +35,6 @@ export class TwitterAuthProvider {
 
   async login(): Promise<TwitterAuthProviderState> {
     try {
-      console.log('login');
       const { oauth_token, oauth_token_secret } =
         await this.twitterAuthApi.getTwitterRequestToken(this.appScheme);
 
