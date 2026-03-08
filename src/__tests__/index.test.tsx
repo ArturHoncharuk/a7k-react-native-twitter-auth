@@ -42,7 +42,7 @@ describe('getAppDeepLink', () => {
 
   it('falls back to default scheme when no argument is provided', () => {
     Platform.OS = 'ios';
-    expect(getAppDeepLink()).toMatch(/:\/\//);
+    expect(getAppDeepLink('foobar')).toMatch(/:\/\//);
   });
 });
 

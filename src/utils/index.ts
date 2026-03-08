@@ -1,13 +1,12 @@
 import { Platform } from 'react-native';
 import queryString from 'query-string';
-import { APP_SCHEME_SLUG } from '../constants';
 
 /**
  * The function getAppDeepLink returns a deep link based on the platform being used.
  * @returns The function `getAppDeepLink` returns a deep link based on the platform. If the platform is
  * Android, it returns `://my-host/`, otherwise, it returns `://`.
  */
-export const getAppDeepLink = (scheme: string = APP_SCHEME_SLUG) => {
+export const getAppDeepLink = (scheme: string | undefined) => {
   return Platform.OS === 'android' ? `${scheme}://my-host/` : `${scheme}://`;
 };
 
