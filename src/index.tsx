@@ -5,7 +5,7 @@ import type {
   BrowserResult,
   RedirectResult,
 } from 'react-native-inappbrowser-reborn';
-import { TwitterSdk } from './lib';
+import { TwitterSdk } from './core';
 import { TWITTER_API_URLS } from './constants';
 import { getAppDeepLink } from './utils';
 

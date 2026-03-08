@@ -1,6 +1,6 @@
 import { Platform } from 'react-native';
 import { TwitterAuthProvider, type TwitterAuthResult } from '../index';
-import { TwitterSdk } from '../lib';
+import { TwitterSdk } from '../core';
 import { getAppDeepLink } from '../utils';
 
 // ─── Mocks ────────────────────────────────────────────────────────────────────
@@ -12,7 +12,7 @@ jest.mock('react-native-inappbrowser-reborn', () => ({
   },
 }));
 
-jest.mock('../lib', () => ({
+jest.mock('../core', () => ({
   TwitterSdk: jest.fn(),
 }));
 
