@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "A7kReactNativeTwitterAuth Example",
-    "slug": "react-native-a7k-react-native-twitter-auth-example",
+    "slug": "a7k-react-native-twitter-auth-example",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

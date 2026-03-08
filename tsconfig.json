@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "react-native-a7k-react-native-twitter-auth": ["./src/index"]
+      "a7k-react-native-twitter-auth": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
