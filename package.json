@@ -129,7 +129,8 @@
     "preset": "react-native",
     "modulePathIgnorePatterns": [
       "<rootDir>/example/node_modules",
-      "<rootDir>/lib/"
+      "<rootDir>/lib/module",
+      "<rootDir>/lib/typescript"
     ],
     "transformIgnorePatterns": [
       "node_modules/(?!(react-native|@react-native|query-string|decode-uri-component|split-on-first|filter-obj)/)"
