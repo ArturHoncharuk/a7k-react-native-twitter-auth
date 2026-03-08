@@ -6,13 +6,17 @@ A lightweight React Native library for authenticating users with X (formerly Twi
 
 ```sh
 # npm
-npm install a7k-react-native-twitter-auth react-native-inappbrowser-reborn
+npm install a7k-react-native-twitter-auth
 
 # yarn
-yarn add a7k-react-native-twitter-auth react-native-inappbrowser-reborn
+yarn add a7k-react-native-twitter-auth
 ```
 
+> `react-native-inappbrowser-reborn` is bundled as a dependency and installs automatically — no need to install it separately.
+
 ### iOS — install pods
+
+After installing the library, run pod install to link the native in-app browser module:
 
 ```sh
 cd ios && pod install
