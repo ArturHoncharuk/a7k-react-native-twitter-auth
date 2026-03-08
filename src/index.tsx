@@ -15,13 +15,10 @@ type TwitterAuthProviderProps = {
   appScheme: string;
 };
 
-type TwitterAuthProviderStateKeys =
-  | 'oauth_token'
-  | 'oauth_token_secret'
-  | 'oauth_verifier';
-
-type TwitterAuthProviderState = {
-  [key in TwitterAuthProviderStateKeys]: string | undefined;
+export type TwitterAuthResult = {
+  oauthToken: string | undefined;
+  oauthTokenSecret: string | undefined;
+  oauthVerifier: string | undefined;
 };
 
 export class TwitterAuthProvider {
@@ -33,7 +30,7 @@ export class TwitterAuthProvider {
     this.appScheme = appScheme;
   }
 
-  async login(): Promise<TwitterAuthProviderState> {
+  async login(): Promise<TwitterAuthResult> {
     try {
       const { oauth_token, oauth_token_secret } =
         await this.twitterAuthApi.getTwitterRequestToken(this.appScheme);
@@ -77,9 +74,9 @@ export class TwitterAuthProvider {
         );
 
         return {
-          oauth_token: accessData.oauth_token ?? undefined,
-          oauth_token_secret: accessData.oauth_token_secret ?? undefined,
-          oauth_verifier: accessData.oauth_verifier ?? undefined,
+          oauthToken: accessData.oauth_token ?? undefined,
+          oauthTokenSecret: accessData.oauth_token_secret ?? undefined,
+          oauthVerifier: accessData.oauth_verifier ?? undefined,
         };
       } else {
         throw new Error('Twitter login cancelled or error');

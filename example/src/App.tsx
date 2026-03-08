@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 import { TwitterAuthProvider } from 'a7k-react-native-twitter-auth';
+import type { TwitterAuthResult } from 'a7k-react-native-twitter-auth';
 
 const twitterAuth = new TwitterAuthProvider({
   clientId: 'YOUR_KEY',
@@ -14,16 +15,10 @@ const twitterAuth = new TwitterAuthProvider({
   appScheme: 'foobar',
 });
 
-type AuthResult = {
-  oauth_token: string | undefined;
-  oauth_token_secret: string | undefined;
-  oauth_verifier: string | undefined;
-};
-
 export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [authResult, setAuthResult] = useState<AuthResult | null>(null);
+  const [authResult, setAuthResult] = useState<TwitterAuthResult | null>(null);
 
   const signIn = async () => {
     try {
@@ -50,7 +45,7 @@ export default function App() {
         <View style={styles.card}>
           <Text style={styles.label}>Signed in</Text>
           <Text style={styles.token} numberOfLines={1}>
-            Token: {authResult.oauth_token}
+            Token: {authResult.oauthToken}
           </Text>
           <Pressable
             style={[styles.button, styles.signOutButton]}
