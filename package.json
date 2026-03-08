@@ -1,6 +1,6 @@
 {
   "name": "a7k-react-native-twitter-auth",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "A lightweight React Native library for authenticating users with X (formerly Twitter) in mobile applications.",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
