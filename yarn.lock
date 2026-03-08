@@ -3960,15 +3960,13 @@ __metadata:
     react: "npm:19.2.0"
     react-native: "npm:0.83.2"
     react-native-builder-bob: "npm:^0.40.18"
-    react-native-get-random-values: "npm:^1.11.0"
-    react-native-inappbrowser-reborn: "npm:^3.7.0"
     release-it: "npm:^19.0.4"
     turbo: "npm:^2.5.6"
     typescript: "npm:^5.9.2"
-    uuid: "npm:^11.1.0"
   peerDependencies:
     react: "*"
     react-native: "*"
+    react-native-inappbrowser-reborn: ">=3.7.0"
   languageName: unknown
   linkType: soft
 
@@ -6611,13 +6609,6 @@ __metadata:
   version: 1.0.8
   resolution: "exsolve@npm:1.0.8"
   checksum: 10c0/65e44ae05bd4a4a5d87cfdbbd6b8f24389282cf9f85fa5feb17ca87ad3f354877e6af4cd99e02fc29044174891f82d1d68c77f69234410eb8f163530e6278c67
-  languageName: node
-  linkType: hard
-
-"fast-base64-decode@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "fast-base64-decode@npm:1.0.0"
-  checksum: 10c0/6d8feab513222a463d1cb58d24e04d2e04b0791ac6559861f99543daaa590e2636d040d611b40a50799bfb5c5304265d05e3658b5adf6b841a50ef6bf833d821
   languageName: node
   linkType: hard
 
@@ -10504,15 +10495,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"opencollective-postinstall@npm:^2.0.3":
-  version: 2.0.3
-  resolution: "opencollective-postinstall@npm:2.0.3"
-  bin:
-    opencollective-postinstall: index.js
-  checksum: 10c0/8a0104a218bc1afaae943f0af378461eeb2836f9848bad872bbd067ec5d1d9791636f307454ab77d0746f10341366f295384656a340ebdb87a2585058e8567e5
-  languageName: node
-  linkType: hard
-
 "optionator@npm:^0.9.3":
   version: 0.9.4
   resolution: "optionator@npm:0.9.4"
@@ -11198,29 +11180,6 @@ __metadata:
   bin:
     bob: bin/bob
   checksum: 10c0/5f1c969d339ece33208faebbf7022c1db3ec127ab91a0f21a29e0d7cbd18dfa702586fa1169f9dd642fbceeb2733af4651143d50010effb8bb150a9bfd4cc4ff
-  languageName: node
-  linkType: hard
-
-"react-native-get-random-values@npm:^1.11.0":
-  version: 1.11.0
-  resolution: "react-native-get-random-values@npm:1.11.0"
-  dependencies:
-    fast-base64-decode: "npm:^1.0.0"
-  peerDependencies:
-    react-native: ">=0.56"
-  checksum: 10c0/2ce71f1ab7f5b36d4a9dd59cc80b4aa75526f047c6680a7f1a388fa8b9a62efdacaf7b7de3be593c73e882773b2eee74916b00f7c8b158e40b46388998218586
-  languageName: node
-  linkType: hard
-
-"react-native-inappbrowser-reborn@npm:^3.7.0":
-  version: 3.7.0
-  resolution: "react-native-inappbrowser-reborn@npm:3.7.0"
-  dependencies:
-    invariant: "npm:^2.2.4"
-    opencollective-postinstall: "npm:^2.0.3"
-  peerDependencies:
-    react-native: ">=0.56"
-  checksum: 10c0/b14d564925eec2c95fc6f8931b68f9ae7c418b5ccad2494748282ee9f7460f7094eec3c6e3a6304062124277624c0f6f647f41a7950ab263b7ebb7c6b0d50d4d
   languageName: node
   linkType: hard
 
@@ -12918,15 +12877,6 @@ __metadata:
   version: 1.0.1
   resolution: "utils-merge@npm:1.0.1"
   checksum: 10c0/02ba649de1b7ca8854bfe20a82f1dfbdda3fb57a22ab4a8972a63a34553cf7aa51bc9081cf7e001b035b88186d23689d69e71b510e610a09a4c66f68aa95b672
-  languageName: node
-  linkType: hard
-
-"uuid@npm:^11.1.0":
-  version: 11.1.0
-  resolution: "uuid@npm:11.1.0"
-  bin:
-    uuid: dist/esm/bin/uuid
-  checksum: 10c0/34aa51b9874ae398c2b799c88a127701408cd581ee89ec3baa53509dd8728cbb25826f2a038f9465f8b7be446f0fbf11558862965b18d21c993684297628d4d3
   languageName: node
   linkType: hard
 
